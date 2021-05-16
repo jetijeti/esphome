@@ -84,7 +84,7 @@ void BLESensor::gattc_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_t ga
       }
       if (param->read.handle == this->handle) {
         this->status_clear_warning();
-        this->publish_state((float) param->read.value[0]);
+        this->publish_state((float) param->read.value[1]);  //change to [1] 2nd value in array
       }
       break;
     }
@@ -92,8 +92,8 @@ void BLESensor::gattc_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_t ga
       if (param->notify.conn_id != this->parent()->conn_id || param->notify.handle != this->handle)
         break;
       ESP_LOGV(TAG, "[%s] ESP_GATTC_NOTIFY_EVT: handle=0x%x, value=0x%x", this->get_name().c_str(),
-               param->notify.handle, param->notify.value[0]);
-      this->publish_state((float) param->notify.value[0]);
+               param->notify.handle, param->notify.value[1]); //change to [1] 2nd value in array
+      this->publish_state((float) param->notify.value[1]); //change to [1] 2nd value in array
       break;
     }
     case ESP_GATTC_REG_FOR_NOTIFY_EVT: {
